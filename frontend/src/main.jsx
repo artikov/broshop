@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
+	createBrowserRouter,
+	createRoutesFromElements,
+	Route,
+	RouterProvider,
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store.js";
@@ -24,30 +24,32 @@ import RegisterScreen from "./screens/RegisterScreen.jsx";
 import ShippingScreen from "./screens/ShippingScreen.jsx";
 import PaymentScreen from "./screens/PaymentScreen.jsx";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen.jsx";
+import OrderScreen from "./screens/OrderScreen.jsx";
 
 const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route index={true} path="/" element={<HomeScreen />} />
-      <Route path="/product/:id" element={<ProductScreen />} />
-      <Route path="/cart" element={<CartScreen />} />
-      <Route path="/login" element={<LoginScreen />} />
-      <Route path="/register" element={<RegisterScreen />} />
+	createRoutesFromElements(
+		<Route path="/" element={<App />}>
+			<Route index={true} path="/" element={<HomeScreen />} />
+			<Route path="/product/:id" element={<ProductScreen />} />
+			<Route path="/cart" element={<CartScreen />} />
+			<Route path="/login" element={<LoginScreen />} />
+			<Route path="/register" element={<RegisterScreen />} />
 
-      {/* This is how to manage PRIVATE routes */}
-      <Route path="" element={<PrivateRoute />}>
-        <Route path="/shipping" element={<ShippingScreen />} />
-        <Route path="/payment" element={<PaymentScreen />} />
-        <Route path="/placeorder" element={<PlaceOrderScreen />} />
-      </Route>
-    </Route>
-  )
+			{/* This is how to manage PRIVATE routes */}
+			<Route path="" element={<PrivateRoute />}>
+				<Route path="/shipping" element={<ShippingScreen />} />
+				<Route path="/payment" element={<PaymentScreen />} />
+				<Route path="/placeorder" element={<PlaceOrderScreen />} />
+				<Route path="/orders/:id" element={<OrderScreen />} />
+			</Route>
+		</Route>
+	)
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+	<React.StrictMode>
+		<Provider store={store}>
+			<RouterProvider router={router} />
+		</Provider>
+	</React.StrictMode>
 );

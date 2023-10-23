@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("Server is ready");
+	res.send("Server is ready");
 });
 
 app.use("/api/products", productRoutes);
@@ -33,5 +33,5 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`Serve at http://localhost:${port}`);
+	console.log(`Serve at http://localhost:${port}`);
 });
