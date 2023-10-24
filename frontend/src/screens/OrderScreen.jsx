@@ -62,6 +62,42 @@ const OrderScreen = () => {
 		}
 	}, [order, paypal, paypalDispatch, loadingPayPal, errorPaypal]);
 
+	const createOrder = async (data, actions) => {
+		return actions.order
+			.create({
+				purchase_units: [
+					{
+						amount: {
+							value: order.totalPrice,
+						},
+					},
+				],
+			})
+			.then((orderID) => {
+				return orderID;
+			});
+	};
+
+	const onApprove = async (data, actions) => {
+		actions.order.capture().then(async (details) => {
+			try {
+				await payOrder({ orderId, details });
+				toast.success("Payment Successful");
+				refetch();
+			} catch (error) {
+				toast.error(error?.message || error?.data?.message);
+			}
+		});
+	};
+	const onApproveTest = async () => {
+		await payOrder({ orderId, details: { payer: {} } });
+		toast.success("Payment Successful");
+		refetch();
+	};
+	const onError = (error) => {
+		toast.error(error?.message || error?.data?.message);
+	};
+
 	return isLoading ? (
 		<Loader />
 	) : error ? (
@@ -158,7 +194,31 @@ const OrderScreen = () => {
 									<Col>${order.totalPrice}</Col>
 								</Row>
 							</ListGroup.Item>
-							{/* Pay ORDER Placeholder */}
+							{!order.isPaid && (
+								<ListGroup.Item>
+									{loadingPay && <Loader />}
+
+									{isPending ? (
+										<Loader />
+									) : (
+										<div>
+											{/* <Button
+												onClick={onApproveTest}
+												style={{ marginBottom: "10px" }}
+											>
+												Test Pay Order
+											</Button> */}
+											<div>
+												<PayPalButtons
+													createOrder={createOrder}
+													onApprove={onApprove}
+													onError={onError}
+												></PayPalButtons>
+											</div>
+										</div>
+									)}
+								</ListGroup.Item>
+							)}
 							{/* Mark as delivered placeholder */}
 						</ListGroup>
 					</Card>
