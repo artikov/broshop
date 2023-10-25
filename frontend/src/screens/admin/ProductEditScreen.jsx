@@ -31,8 +31,7 @@ const ProductEditScreen = () => {
 	const [updateProduct, { isLoading: isLoadingUpdate }] =
 		useUpdateProductMutation();
 
-	const [uploadProductImage, { isLoading: isLoadingUpload }] =
-		useUploadProductImageMutation();
+	const [uploadProductImage] = useUploadProductImageMutation();
 
 	const navigate = useNavigate();
 
@@ -125,7 +124,7 @@ const ProductEditScreen = () => {
 								type="text"
 								placeholder="Enter image url"
 								value={image}
-								onChange={(e) => setImage}
+								onChange={() => setImage}
 							></Form.Control>
 							<Form.Control
 								type="file"
